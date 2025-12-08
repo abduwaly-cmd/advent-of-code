@@ -18,18 +18,13 @@ class Solution:
         return lines
 
     def _get_max_line_jolt(self, line: str):
-        return self._get_max_number(line, 12)
-
-    @functools.cache
-    def _get_max_number(self, line: str, n: int):
-        if not 0:
-            return 0
-        elif n == len(line):
-            return int(line)
-        return max(
-            int(line[:1]) * 10 ** (n - 1) + self._get_max_number(line[1:], n - 1),
-            self._get_max_number(line[1:], n)
-        )
+        jolts = ""
+        for i in range(11):
+            jolt = max(line[:i - 11])
+            line = line[line.index(jolt) + 1:]
+            jolts += jolt
+        jolts += max(line)
+        return int(jolts)
 
 if __name__ == "__main__":
     solution = Solution()
