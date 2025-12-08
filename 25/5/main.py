@@ -6,20 +6,15 @@ class Solution:
         self.sum = 0
 
     def solve(self):
-        new_ranges = []
-        for (min1, max1) in self.ranges:
-            if ranges := list(filter(lambda r: min1 <= r[1] and max1 >= r[0], new_ranges)):
-                mins = [min1]
-                maxs = [max1]
-                for data in ranges:
-                    existing = new_ranges.index(data)
-                    min2, max2 = new_ranges.pop(existing)
-                    mins.append(min2)
-                    maxs.append(max2)
-                new_ranges.append((min(mins), max(maxs)))
-            else:
-                new_ranges.append((min1, max1))
-        return sum(y - x + 1 for (x, y) in new_ranges)
+        ranges = sorted(self.ranges)
+        current = -1
+        for (start, end) in ranges:
+            if start <= current:
+                start = current + 1
+            if start <= end:
+                self.sum += end - start + 1
+            current = max(current, end)
+        return self.sum
 
     def parse_ranges(self):
         ranges = []
